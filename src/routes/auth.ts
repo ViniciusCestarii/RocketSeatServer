@@ -42,7 +42,7 @@ export async function authRoutes(app : FastifyInstance) {
     let user = await prisma.user.findUnique({
       where: {
         githubId: userInfo.id
-      }
+      },
     })
 
     if(!user){
@@ -56,8 +56,16 @@ export async function authRoutes(app : FastifyInstance) {
       })
     }
 
+    const token = app.jwt.sign({ //don't put sensible info
+      name: user.name,
+      avatarUrl: user.avatarUrl,
+    }, {
+      sub: user.id, //whose info is this?
+      expiresIn: '30 days' //how much time to this token expires
+    })
+
     return{
-      user,
+      token,
     }
   })
 }

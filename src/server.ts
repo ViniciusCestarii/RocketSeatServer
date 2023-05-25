@@ -2,6 +2,7 @@
 import 'dotenv/config' // to use env.proces.variable name
 import fastify from 'fastify';
 import cors from '@fastify/cors'// for safety
+import jwt from '@fastify/jwt' // for creating jwt token
 import { memoriesRoutes } from './routes/memories';
 import { authRoutes } from './routes/auth';
 
@@ -15,6 +16,11 @@ app.register(cors, {
   origin: true // todas URLs de front-end poderão acessar o nosso back-end
   //origin: ['http://seila.com.br/oi'] // todas URLs escolhidas de front-end poderão acessar o nosso back-end
 })
+
+app.register(jwt, {
+  secret: 'spacetime', //should be a random string
+})
+
 app.register(memoriesRoutes)
 app.register(authRoutes)
 
