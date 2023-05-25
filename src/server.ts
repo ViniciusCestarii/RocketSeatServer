@@ -1,8 +1,9 @@
 //npx tsx src/server.ts ou npm run dev pois criei no package.json ao invés de node src/server.ts pois o node não reconhece tipagem
-
+import 'dotenv/config' // to use env.proces.variable name
 import fastify from 'fastify';
 import cors from '@fastify/cors'// for safety
 import { memoriesRoutes } from './routes/memories';
+import { authRoutes } from './routes/auth';
 
 const app = fastify()
 
@@ -15,6 +16,7 @@ app.register(cors, {
   //origin: ['http://seila.com.br/oi'] // todas URLs escolhidas de front-end poderão acessar o nosso back-end
 })
 app.register(memoriesRoutes)
+app.register(authRoutes)
 
 app.listen({
   port: 3333,
